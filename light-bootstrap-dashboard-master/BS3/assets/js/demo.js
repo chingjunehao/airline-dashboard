@@ -204,7 +204,7 @@ demo = {
       lineSmooth: false,
       low: 0,
       high: 0.1,
-      showArea: true,
+      showArea: false,
       height: "245px",
       axisX: {
         showGrid: false,
@@ -212,8 +212,8 @@ demo = {
       lineSmooth: Chartist.Interpolation.simple({
         divisor: 3
       }),
-      showLine: false,
-      showPoint: false,
+      showLine: true,
+      showPoint: true,
     };
 
     var responsiveSales = [
@@ -227,6 +227,120 @@ demo = {
     ];
 
     Chartist.Line('#chartHours', dataSales, optionsSales, responsiveSales);
+
+    airasia = [3261572,3261802,3262087,3262299,3264825,3262611,3262851,3262986,3263176,3263309,3263501,3263787,3263919,3264014,3264232,3264950,3264532,3264732,3265052,3265161,3265345, 3265545]
+    Singaporeair = [710936,711014,711081,711145,712528,711265,711395,711622,711692,711825,711891,711930,712130,712250,712320,712582,712400,712488,712655,712722,712799,712829]
+    airasia.forEach((item, index, arr) => {
+      arr[index] = item / 10000
+    })
+    Singaporeair.forEach((item, index, arr) => {
+      arr[index] = item / 10000
+    })
+
+    console.log(airasia)
+    console.log(Singaporeair)
+
+    // var json_data = { "2013-01-21": 1, "2013-01-22": 7 };
+    // var result = [];
+
+    // for (var i in json_data)
+    //   result.push([i, json_data[i]]);
+
+    var dataSales = {
+      labels: ['16 Dec', '17 Dec', '18 Dec', '19 Dec', '20 Dec', '21 Dec', '22 Dec', '23 Dec', '24 Dec', '25 Dec', '26 Dec', '27 Dec', '28 Dec', '29 Dec', '30 Dec', '31 Dec', '1 Jan', '2 Jan', '3 Jan', '4 Jan', '5 Jan', '6 Jan'],
+      series: [
+        [], // blue
+        [], // red
+        airasia, // orange
+        [], // purple
+        [], // green
+      ]
+    };
+
+    var optionsSales = {
+      lineSmooth: false,
+      low: 0,
+      high: 500,
+      showArea: false,
+      height: "245px",
+      axisX: {
+        showGrid: false,
+      },
+      lineSmooth: Chartist.Interpolation.simple({
+        divisor: 3
+      }),
+      showLine: true,
+      showPoint: true,
+    };
+
+    var responsiveSales = [
+      ['screen and (max-width: 640px)', {
+        axisX: {
+          labelInterpolationFnc: function (value) {
+            return value[0];
+          }
+        }
+      }]
+    ];
+
+    Chartist.Line('#chartfollowerairasia', dataSales, optionsSales, responsiveSales);
+
+    airasia = [3261572,3261802,3262087,3262299,3264825,3262611,3262851,3262986,3263176,3263309,3263501,3263787,3263919,3264014,3264232,3264950,3264532,3264732,3265052,3265161,3265345, 3265545]
+    Singaporeair = [710936,711014,711081,711145,712528,711265,711395,711622,711692,711825,711891,711930,712130,712250,712320,712582,712400,712488,712655,712722,712799,712829]
+    airasia.forEach((item, index, arr) => {
+      arr[index] = item / 10000
+    })
+    Singaporeair.forEach((item, index, arr) => {
+      arr[index] = item / 10000
+    })
+
+    console.log(airasia)
+    console.log(Singaporeair)
+
+    // var json_data = { "2013-01-21": 1, "2013-01-22": 7 };
+    // var result = [];
+
+    // for (var i in json_data)
+    //   result.push([i, json_data[i]]);
+
+    var dataSales = {
+      labels: ['16 Dec', '17 Dec', '18 Dec', '19 Dec', '20 Dec', '21 Dec', '22 Dec', '23 Dec', '24 Dec', '25 Dec', '26 Dec', '27 Dec', '28 Dec', '29 Dec', '30 Dec', '31 Dec', '1 Jan', '2 Jan', '3 Jan', '4 Jan', '5 Jan', '6 Jan'],
+      series: [
+        [], // blue
+        [], // red
+        [], // orange
+        [], // purple
+        Singaporeair, // green
+      ]
+    };
+
+    var optionsSales = {
+      lineSmooth: false,
+      low: 0,
+      high: 100,
+      showArea: false,
+      height: "245px",
+      axisX: {
+        showGrid: false,
+      },
+      lineSmooth: Chartist.Interpolation.simple({
+        divisor: 3
+      }),
+      showLine: true,
+      showPoint: true,
+    };
+
+    var responsiveSales = [
+      ['screen and (max-width: 640px)', {
+        axisX: {
+          labelInterpolationFnc: function (value) {
+            return value[0];
+          }
+        }
+      }]
+    ];
+
+    Chartist.Line('#chartfollowersingaporeair', dataSales, optionsSales, responsiveSales);
 
 
     var data = {
