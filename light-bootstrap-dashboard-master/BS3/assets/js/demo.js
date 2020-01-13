@@ -4,6 +4,10 @@ SIA_rt = []
 
 quaters = ['01-2017', '04-2017', '07-2017', '10-2017', '01-2018', '04-2018', '07-2018', '10-2018', '01-2019', '04-2019', '07-2019', '10-2019']
 
+// engagement of over time
+// current enggagement compare with last month
+// best post
+// hashtag and non-hashtag
 
 airasia_campaign = []
 singaporeair_campaign = []
@@ -12,6 +16,9 @@ singaporeair = 0
 
 airasia_engagement = []
 singaporeair_engagement = []
+
+aa_nonhashtag_engagement = []
+sa_nonhashtag_engagement = []
 
 function sum(obj) {
   var sum = 0;
@@ -36,17 +43,20 @@ async function asyncForEach(array, callback) {
   }
 }
 
+
 const engagement = new Promise(async function (resolve, reject) {
   // quaters.forEach(async (month) => {
   await asyncForEach(quaters, async (month) => {
     await $.getJSON("./assets/data/campaign_airasia_" + month + ".json", function (data) {
       airasia_campaign.push(data)
       airasia_engagement.push(sum(data['mention_engagement']) + sum(data['hashtag_engagement']))
+      aa_nonhashtag_engagement.push(sum(data['nonhashtag_engagement']))
     });
 
     await $.getJSON("./assets/data/campaign_singaporeair_" + month + ".json", function (data) {
       singaporeair_campaign.push(data)
       singaporeair_engagement.push(sum(data['mention_engagement']) + sum(data['hashtag_engagement']))
+      sa_nonhashtag_engagement.push(sum(data['nonhashtag_engagement'])
     });
   })
   resolve()
@@ -54,7 +64,6 @@ const engagement = new Promise(async function (resolve, reject) {
 
 
 engagement.then(() => {
-  
   airasia_engagement = scaleArray(airasia_engagement, 0.01)
   singaporeair_engagement = scaleArray(singaporeair_engagement, 0.01)
   var dataSales = {
