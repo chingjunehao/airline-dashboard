@@ -21,6 +21,9 @@ singaporeair_engagement = []
 aa_nonhashtag_engagement = []
 sa_nonhashtag_engagement = []
 
+airasia_hour_campaign = []
+singaporeair_hour_campaign = []
+
 function sum(obj) {
   var sum = 0;
   for (var el in obj) {
@@ -43,6 +46,66 @@ async function asyncForEach(array, callback) {
     await callback(array[index], index, array);
   }
 }
+
+const hour_engagement = new Promise(async function (resolve, reject) {
+    await $.getJSON("./assets/data/campaign_hour_airasia.json", function (data) {
+      Object.keys(data['engagement']).sort((n1,n2) => n1 - n2).forEach(function(key) {
+        airasia_hour_campaign.push(data['engagement'][key])
+      })
+    })
+
+    await $.getJSON("./assets/data/campaign_hour_singaporeair.json", function (data) {
+      Object.keys(data['engagement']).sort((n1,n2) => n1 - n2).forEach(function(key) {
+        singaporeair_hour_campaign.push(data['engagement'][key])
+      })
+    })
+  resolve()
+})
+
+hour_engagement
+// Twitter Campaign Engagement Rate hourly
+.then(() => {
+  airasia_hour_campaign = scaleArray(airasia_hour_campaign, 0.01)
+  singaporeair_hour_campaign = scaleArray(singaporeair_hour_campaign, 0.01)
+  var dataSales = {
+    labels: ['0000', '0100', '0200', '0300', '0400', '0500', '0600', '0700', '0800', '0900', '1000', '1100', '1200', '1300', '1400', '1500', '1600', '1700', '1800', '1900', '2000', '2100', '2200', '2300'],
+    series: [
+      [], // blue
+      [], // red
+      airasia_hour_campaign, // orange
+      [], // purple
+      singaporeair_hour_campaign, // green
+    ]
+  };
+
+  var optionsSales = {
+    lineSmooth: false,
+    low: 0,
+    high: 10000,
+    showArea: false,
+    height: "245px",
+    axisX: {
+      showGrid: false,
+    },
+    lineSmooth: Chartist.Interpolation.simple({
+      divisor: 3
+    }),
+    showLine: true,
+    showPoint: true,
+  };
+
+  var responsiveSales = [
+    ['screen and (max-width: 640px)', {
+      axisX: {
+        labelInterpolationFnc: function (value) {
+          return value[0];
+        }
+      }
+    }]
+  ];
+
+  Chartist.Line('#chartHoursTime', dataSales, optionsSales, responsiveSales);
+})
 
 
 const engagement = new Promise(async function (resolve, reject) {
@@ -175,9 +238,6 @@ function de(){
       arr[index] = item / 10000
     })
 
-    console.log(airasia)
-    console.log(Singaporeair)
-
     // var json_data = { "2013-01-21": 1, "2013-01-22": 7 };
     // var result = [];
 
@@ -231,9 +291,6 @@ function de(){
     Singaporeair.forEach((item, index, arr) => {
       arr[index] = item / 10000
     })
-
-    console.log(airasia)
-    console.log(Singaporeair)
 
     // var json_data = { "2013-01-21": 1, "2013-01-22": 7 };
     // var result = [];
