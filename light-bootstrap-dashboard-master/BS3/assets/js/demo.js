@@ -52,6 +52,7 @@ const engagement = new Promise(async function (resolve, reject) {
   resolve()
 })
 
+
 engagement.then(() => {
   
   airasia_engagement = scaleArray(airasia_engagement, 0.01)
@@ -95,6 +96,7 @@ engagement.then(() => {
 
   Chartist.Line('#chartHours', dataSales, optionsSales, responsiveSales);
 })
+
 
 
 $.getJSON("./assets/data/campaign_airasia.json", function (data) {
