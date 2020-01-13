@@ -154,16 +154,14 @@ engagement
   aa_curr_engagement = airasia_engagement[airasia_engagement.length - 1]
   aa_engagement_grow = (((aa_curr_engagement - aa_last_engagement) / aa_last_engagement) * 100)
 
-  $("#aa-engagement").html(Math.round(aa_curr_engagement, 0).toString() + " " + Math.round(aa_engagement_grow, 0).toString() + "%")
-  $("#aa-engagement").css("color", 'red')
+  $("#aa-engagement").html(Math.round(aa_curr_engagement, 0).toString() + " (" + Math.round(aa_engagement_grow, 0).toString() + "%)")
+  $("#aa-engagement").css("color", aa_curr_engagement > aa_last_engagement ? "green":"red")
 
   sa_last_engagement = singaporeair_engagement[singaporeair_engagement.length - 2]
   sa_curr_engagement = singaporeair_engagement[singaporeair_engagement.length - 1]
   sa_engagement_grow = (((sa_curr_engagement - sa_last_engagement) / sa_last_engagement) * 100)
-  console.log(sa_engagement_grow)
-
-  console.log(airasia_engagement)
-  console.log(singaporeair_engagement)
+  $("#sa-engagement").html(Math.round(sa_curr_engagement, 0).toString() + " (" + Math.round(sa_engagement_grow, 0).toString() + "%)")
+  $("#sa-engagement").css("color", sa_curr_engagement > sa_last_engagement ? "green":"red")
 })
 
 
