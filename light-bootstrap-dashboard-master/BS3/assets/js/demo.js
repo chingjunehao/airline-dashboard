@@ -4,10 +4,11 @@ SIA_rt = []
 
 quaters = ['01-2017', '04-2017', '07-2017', '10-2017', '01-2018', '04-2018', '07-2018', '10-2018', '01-2019', '04-2019', '07-2019', '10-2019']
 
+// count how many is hashtag, nonhashtagmentioned
 // engagement of over time
 // current enggagement compare with last month
 // best post
-// hashtag and non-hashtag
+// hashtag and non-hashtag (Done)
 
 airasia_campaign = []
 singaporeair_campaign = []
@@ -45,7 +46,6 @@ async function asyncForEach(array, callback) {
 
 
 const engagement = new Promise(async function (resolve, reject) {
-  // quaters.forEach(async (month) => {
   await asyncForEach(quaters, async (month) => {
     await $.getJSON("./assets/data/campaign_airasia_" + month + ".json", function (data) {
       airasia_campaign.push(data)
@@ -56,13 +56,15 @@ const engagement = new Promise(async function (resolve, reject) {
     await $.getJSON("./assets/data/campaign_singaporeair_" + month + ".json", function (data) {
       singaporeair_campaign.push(data)
       singaporeair_engagement.push(sum(data['mention_engagement']) + sum(data['hashtag_engagement']))
-      sa_nonhashtag_engagement.push(sum(data['nonhashtag_engagement'])
+      sa_nonhashtag_engagement.push(sum(data['nonhashtag_engagement']))
     });
   })
   resolve()
 })
 
-engagement.then(() => {
+engagement
+// Twitter Campaign Engagement Rate Quaterly
+.then(() => {
   airasia_engagement = scaleArray(airasia_engagement, 0.01)
   singaporeair_engagement = scaleArray(singaporeair_engagement, 0.01)
   var dataSales = {
@@ -103,6 +105,63 @@ engagement.then(() => {
   ];
 
   Chartist.Line('#chartHours', dataSales, optionsSales, responsiveSales);
+})
+// Twitter non-compaign engagement rate quaterly
+.then(() => {
+  aa_nonhashtag_engagement = scaleArray(aa_nonhashtag_engagement, 0.01)
+  sa_nonhashtag_engagement = scaleArray(sa_nonhashtag_engagement, 0.01)
+  var dataSales = {
+    labels: quaters,
+    series: [
+      [], // blue
+      [], // red
+      aa_nonhashtag_engagement, // orange
+      [], // purple
+      sa_nonhashtag_engagement, // green
+    ]
+  };
+
+  var optionsSales = {
+    lineSmooth: false,
+    low: 0,
+    high: 5000,
+    showArea: false,
+    height: "245px",
+    axisX: {
+      showGrid: false,
+    },
+    lineSmooth: Chartist.Interpolation.simple({
+      divisor: 3
+    }),
+    showLine: true,
+    showPoint: true,
+  };
+
+  var responsiveSales = [
+    ['screen and (max-width: 640px)', {
+      axisX: {
+        labelInterpolationFnc: function (value) {
+          return value[0];
+        }
+      }
+    }]
+  ];
+
+  Chartist.Line('#chartHours-non-campaign', dataSales, optionsSales, responsiveSales);
+})
+.then(() => {
+  aa_last_engagement = airasia_engagement[airasia_engagement.length - 2]
+  aa_curr_engagement = airasia_engagement[airasia_engagement.length - 1]
+  aa_engagement_grow = (((aa_curr_engagement - aa_last_engagement) / aa_last_engagement) * 100)
+  console.log(aa_engagement_grow)
+
+  sa_last_engagement = singaporeair_engagement[singaporeair_engagement.length - 2]
+  sa_curr_engagement = singaporeair_engagement[singaporeair_engagement.length - 1]
+  sa_engagement_grow = (((sa_curr_engagement - sa_last_engagement) / sa_last_engagement) * 100)
+  console.log(sa_engagement_grow)
+
+  console.log(airasia_engagement)
+  console.log(singaporeair_engagement)
 })
 
 
